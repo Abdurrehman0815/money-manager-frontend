@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../config/api.js";
 import AuthContext from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { FaTimes, FaPaperPlane } from "react-icons/fa";
@@ -28,9 +29,9 @@ const TransactionModal = ({ isOpen, onClose, refreshData, editData, accounts = [
 
   useEffect(() => {
     if (isOpen) {
-      const fetchAccounts = async () => {
+const fetchAccounts = async () => {
         try {
-          const res = await axios.get("http://localhost:5000/api/transactions/accounts", {
+          const res = await axios.get(`${API_URL}/api/transactions/accounts`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setModalAccounts(res.data);
@@ -114,10 +115,10 @@ const TransactionModal = ({ isOpen, onClose, refreshData, editData, accounts = [
 
     try {
       if (editData) {
-        await axios.put(`http://localhost:5000/api/transactions/${editData._id}`, transactionData, { headers: { Authorization: `Bearer ${token}` } });
+await axios.put(`${API_URL}/api/transactions/${editData._id}`, transactionData, { headers: { Authorization: `Bearer ${token}` } });
         toast.success("Updated!");
       } else {
-        await axios.post("http://localhost:5000/api/transactions/add", transactionData, { headers: { Authorization: `Bearer ${token}` } });
+await axios.post(`${API_URL}/api/transactions/add`, transactionData, { headers: { Authorization: `Bearer ${token}` } });
         toast.success("Success!");
       }
       refreshData(); onClose();
